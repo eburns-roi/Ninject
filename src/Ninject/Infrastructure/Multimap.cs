@@ -109,8 +109,7 @@ namespace Ninject.Infrastructure
         public bool RemoveAll(TKey key)
         {
             Ensure.ArgumentNotNull(key, "key");
-            ICollection<TValue> ignorevalues;
-            return this.items.TryRemove(key, out ignorevalues);
+            return this.items.TryRemove(key, out ICollection<TValue> ignorevalues);
         }
 
         /// <summary>

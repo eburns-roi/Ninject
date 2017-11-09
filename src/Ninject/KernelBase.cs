@@ -22,6 +22,7 @@
 namespace Ninject
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -39,7 +40,6 @@ namespace Ninject
     using Ninject.Planning.Bindings;
     using Ninject.Planning.Bindings.Resolvers;
     using Ninject.Syntax;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// The base implementation of an <see cref="IKernel"/>.

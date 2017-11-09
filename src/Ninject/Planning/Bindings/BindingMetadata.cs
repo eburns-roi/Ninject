@@ -21,10 +21,9 @@
 
 namespace Ninject.Planning.Bindings
 {
-    using System.Collections.Generic;
+    using System.Collections.Concurrent;
 
     using Ninject.Infrastructure;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// Additional information available about a binding, which can be used in constraints

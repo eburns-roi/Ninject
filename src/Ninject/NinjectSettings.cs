@@ -22,11 +22,10 @@
 namespace Ninject
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.Concurrent;
 
     using Ninject.Activation;
     using Ninject.Infrastructure;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// Contains configuration options for Ninject.

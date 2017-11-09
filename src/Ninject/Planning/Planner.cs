@@ -22,6 +22,7 @@
 namespace Ninject.Planning
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
@@ -30,7 +31,6 @@ namespace Ninject.Planning
     using Ninject.Infrastructure;
     using Ninject.Infrastructure.Language;
     using Ninject.Planning.Strategies;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// Generates plans for how to activate instances.

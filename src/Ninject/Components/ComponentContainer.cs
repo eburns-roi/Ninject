@@ -22,6 +22,7 @@
 namespace Ninject.Components
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -30,7 +31,6 @@ namespace Ninject.Components
     using Ninject.Infrastructure.Disposal;
     using Ninject.Infrastructure.Introspection;
     using Ninject.Infrastructure.Language;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// An internal container that manages and resolves components that contribute to Ninject.
@@ -116,8 +116,7 @@ namespace Ninject.Components
                 this.instances[implementation].Dispose();
             }
 
-            INinjectComponent ignoreValue;
-            this.instances.TryRemove(implementation, out ignoreValue);
+            this.instances.TryRemove(implementation, out INinjectComponent ignoreValue);
 
             this.mappings.Remove(typeof(T), typeof(TImplementation));
         }
@@ -136,8 +135,8 @@ namespace Ninject.Components
                 {
                     this.instances[implementation].Dispose();
                 }
-                INinjectComponent ignoreValue;
-                this.instances.TryRemove(implementation, out ignoreValue);
+
+                this.instances.TryRemove(implementation, out INinjectComponent ignoreValue);
             }
 
             this.mappings.RemoveAll(component);

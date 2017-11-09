@@ -21,6 +21,7 @@
 
 namespace Ninject.Activation.Caching
 {
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -28,7 +29,6 @@ namespace Ninject.Activation.Caching
     using Ninject.Infrastructure;
     using Ninject.Infrastructure.Disposal;
     using Ninject.Planning.Bindings;
-    using System.Collections.Concurrent;
 
     /// <summary>
     /// Tracks instances for re-use in certain scopes.
