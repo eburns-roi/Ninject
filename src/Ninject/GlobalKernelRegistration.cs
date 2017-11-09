@@ -22,6 +22,7 @@
 namespace Ninject
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
@@ -34,7 +35,7 @@ namespace Ninject
     {
         private static readonly ReaderWriterLockSlim KernelRegistrationsLock = new ReaderWriterLockSlim();
 
-        private static readonly IDictionary<Type, Registration> KernelRegistrations = new Dictionary<Type, Registration>();
+        private static readonly IDictionary<Type, Registration> KernelRegistrations = new ConcurrentDictionary<Type, Registration>();
 
         /// <summary>
         /// Registers the kernel for the specified type.

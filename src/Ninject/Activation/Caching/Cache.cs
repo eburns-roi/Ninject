@@ -28,6 +28,7 @@ namespace Ninject.Activation.Caching
     using Ninject.Infrastructure;
     using Ninject.Infrastructure.Disposal;
     using Ninject.Planning.Bindings;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// Tracks instances for re-use in certain scopes.
@@ -39,7 +40,7 @@ namespace Ninject.Activation.Caching
         /// This is a dictionary of scopes to a multimap for bindings to cache entries.
         /// </summary>
         private readonly IDictionary<object, Multimap<IBindingConfiguration, CacheEntry>> entries =
-            new Dictionary<object, Multimap<IBindingConfiguration, CacheEntry>>(new WeakReferenceEqualityComparer());
+            new ConcurrentDictionary<object, Multimap<IBindingConfiguration, CacheEntry>>(new WeakReferenceEqualityComparer());
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Cache"/> class.

@@ -39,6 +39,7 @@ namespace Ninject
     using Ninject.Planning.Bindings;
     using Ninject.Planning.Bindings.Resolvers;
     using Ninject.Syntax;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// The base implementation of an <see cref="IKernel"/>.
@@ -49,7 +50,7 @@ namespace Ninject
 
         private readonly Multimap<Type, IBinding> bindings = new Multimap<Type, IBinding>();
 
-        private readonly Dictionary<Type, List<IBinding>> bindingCache = new Dictionary<Type, List<IBinding>>();
+        private readonly ConcurrentDictionary<Type, List<IBinding>> bindingCache = new ConcurrentDictionary<Type, List<IBinding>>();
 
         private readonly Dictionary<string, INinjectModule> modules = new Dictionary<string, INinjectModule>();
 
@@ -395,7 +396,7 @@ namespace Ninject
                     var compiledBindings = resolvers
                         .SelectMany(resolver => resolver.Resolve(this.bindings, service))
                         .OrderByDescending(b => b, this.bindingPrecedenceComparer).ToList();
-                    this.bindingCache.Add(service, compiledBindings);
+                    this.bindingCache.TryAdd(service, compiledBindings);
 
                     return compiledBindings;
                 }

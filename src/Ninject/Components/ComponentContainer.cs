@@ -30,6 +30,7 @@ namespace Ninject.Components
     using Ninject.Infrastructure.Disposal;
     using Ninject.Infrastructure.Introspection;
     using Ninject.Infrastructure.Language;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// An internal container that manages and resolves components that contribute to Ninject.
@@ -37,7 +38,7 @@ namespace Ninject.Components
     public class ComponentContainer : DisposableObject, IComponentContainer
     {
         private readonly Multimap<Type, Type> mappings = new Multimap<Type, Type>();
-        private readonly Dictionary<Type, INinjectComponent> instances = new Dictionary<Type, INinjectComponent>();
+        private readonly ConcurrentDictionary<Type, INinjectComponent> instances = new ConcurrentDictionary<Type, INinjectComponent>();
         private readonly HashSet<KeyValuePair<Type, Type>> transients = new HashSet<KeyValuePair<Type, Type>>();
 
         /// <summary>
@@ -115,7 +116,8 @@ namespace Ninject.Components
                 this.instances[implementation].Dispose();
             }
 
-            this.instances.Remove(implementation);
+            INinjectComponent ignoreValue;
+            this.instances.TryRemove(implementation, out ignoreValue);
 
             this.mappings.Remove(typeof(T), typeof(TImplementation));
         }
@@ -134,8 +136,8 @@ namespace Ninject.Components
                 {
                     this.instances[implementation].Dispose();
                 }
-
-                this.instances.Remove(implementation);
+                INinjectComponent ignoreValue;
+                this.instances.TryRemove(implementation, out ignoreValue);
             }
 
             this.mappings.RemoveAll(component);
@@ -244,7 +246,7 @@ namespace Ninject.Components
 
                 if (!this.transients.Contains(new KeyValuePair<Type, Type>(component, implementation)))
                 {
-                    this.instances.Add(implementation, instance);
+                    this.instances.TryAdd(implementation, instance);
                 }
 
                 return instance;

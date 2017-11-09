@@ -30,6 +30,7 @@ namespace Ninject.Planning
     using Ninject.Infrastructure;
     using Ninject.Infrastructure.Language;
     using Ninject.Planning.Strategies;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// Generates plans for how to activate instances.
@@ -37,7 +38,7 @@ namespace Ninject.Planning
     public class Planner : NinjectComponent, IPlanner
     {
         private readonly ReaderWriterLockSlim plannerLock = new ReaderWriterLockSlim();
-        private readonly Dictionary<Type, IPlan> plans = new Dictionary<Type, IPlan>();
+        private readonly ConcurrentDictionary<Type, IPlan> plans = new ConcurrentDictionary<Type, IPlan>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Planner"/> class.
@@ -106,7 +107,7 @@ namespace Ninject.Planning
                 }
 
                 plan = this.CreateEmptyPlan(type);
-                this.plans.Add(type, plan);
+                this.plans.TryAdd(type, plan);
                 this.Strategies.Map(s => s.Execute(plan));
 
                 return plan;

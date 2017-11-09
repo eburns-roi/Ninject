@@ -22,6 +22,7 @@
 namespace Ninject.Infrastructure
 {
     using System.Collections;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
 
     /// <summary>
@@ -31,7 +32,7 @@ namespace Ninject.Infrastructure
     /// <typeparam name="TValue">The type of value.</typeparam>
     public class Multimap<TKey, TValue> : IEnumerable<KeyValuePair<TKey, ICollection<TValue>>>
     {
-        private readonly Dictionary<TKey, ICollection<TValue>> items = new Dictionary<TKey, ICollection<TValue>>();
+        private readonly ConcurrentDictionary<TKey, ICollection<TValue>> items = new ConcurrentDictionary<TKey, ICollection<TValue>>();
 
         /// <summary>
         /// Gets the collection of keys.
@@ -108,7 +109,8 @@ namespace Ninject.Infrastructure
         public bool RemoveAll(TKey key)
         {
             Ensure.ArgumentNotNull(key, "key");
-            return this.items.Remove(key);
+            ICollection<TValue> ignorevalues;
+            return this.items.TryRemove(key, out ignorevalues);
         }
 
         /// <summary>

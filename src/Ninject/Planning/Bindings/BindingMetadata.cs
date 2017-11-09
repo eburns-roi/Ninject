@@ -24,6 +24,7 @@ namespace Ninject.Planning.Bindings
     using System.Collections.Generic;
 
     using Ninject.Infrastructure;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// Additional information available about a binding, which can be used in constraints
@@ -31,7 +32,7 @@ namespace Ninject.Planning.Bindings
     /// </summary>
     public class BindingMetadata : IBindingMetadata
     {
-        private readonly Dictionary<string, object> values = new Dictionary<string, object>();
+        private readonly ConcurrentDictionary<string, object> values = new ConcurrentDictionary<string, object>();
 
         /// <summary>
         /// Gets or sets the binding's name.

@@ -26,13 +26,14 @@ namespace Ninject
 
     using Ninject.Activation;
     using Ninject.Infrastructure;
+    using System.Collections.Concurrent;
 
     /// <summary>
     /// Contains configuration options for Ninject.
     /// </summary>
     public class NinjectSettings : INinjectSettings
     {
-        private readonly Dictionary<string, object> values = new Dictionary<string, object>();
+        private readonly ConcurrentDictionary<string, object> values = new ConcurrentDictionary<string, object>();
 
         /// <summary>
         /// Gets or sets the attribute that indicates that a member should be injected.

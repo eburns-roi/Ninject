@@ -22,6 +22,7 @@
 namespace Ninject.Infrastructure.Language
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
@@ -190,7 +191,7 @@ namespace Ninject.Infrastructure.Language
             {
                 if (InternalGetAttributeUsage(attributeType).Inherited)
                 {
-                    var attributeUsages = new Dictionary<Type, bool>();
+                    var attributeUsages = new ConcurrentDictionary<Type, bool>();
                     var attributes = new List<object>();
                     attributes.AddRange(propertyInfo.GetCustomAttributes(attributeType, false));
                     for (var info = GetParentDefinition(propertyInfo);
@@ -210,7 +211,7 @@ namespace Ninject.Infrastructure.Language
             return propertyInfo.GetCustomAttributes(attributeType, inherit);
         }
 
-        private static void AddAttributes(List<object> attributes, object[] customAttributes, Dictionary<Type, bool> attributeUsages)
+        private static void AddAttributes(List<object> attributes, object[] customAttributes, ConcurrentDictionary<Type, bool> attributeUsages)
         {
             foreach (var attribute in customAttributes)
             {
