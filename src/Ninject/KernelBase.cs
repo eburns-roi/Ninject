@@ -52,7 +52,7 @@ namespace Ninject
 
         private readonly ConcurrentDictionary<Type, List<IBinding>> bindingCache = new ConcurrentDictionary<Type, List<IBinding>>();
 
-        private readonly Dictionary<string, INinjectModule> modules = new Dictionary<string, INinjectModule>();
+        private readonly ConcurrentDictionary<string, INinjectModule> modules = new ConcurrentDictionary<string, INinjectModule>();
 
         private readonly IBindingPrecedenceComparer bindingPrecedenceComparer;
 
@@ -232,7 +232,7 @@ namespace Ninject
 
                 module.OnLoad(this);
 
-                this.modules.Add(module.Name, module);
+                this.modules.TryAdd(module.Name, module);
             }
 
             foreach (INinjectModule module in m)
@@ -275,7 +275,7 @@ namespace Ninject
 
             module.OnUnload(this);
 
-            this.modules.Remove(name);
+            this.modules.TryRemove(name, out INinjectModule ignoreValue);
         }
 
         /// <summary>
